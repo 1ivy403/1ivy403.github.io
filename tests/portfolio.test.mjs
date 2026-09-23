@@ -28,11 +28,11 @@ test('浏览器标题和分享预览标明居丽德孜-AI产品经理', () => {
 });
 
 test('首屏保留人物自述，四个色块呈现定位而不重复长句', () => {
-  assert.match(html, /AI 产品经理·模型赋能真实需求/);
-  assert.match(html, /<h1 id="hero-title">\s*<span class="hero-emphasis">定义场景和问题，<\/span><br>\s*将模型能力转化为解决方案，<span class="hero-mark">✦AI Agents<\/span>\s*<\/h1>/);
+  assert.match(html, /AI 产品经理 · Agent 与大模型应用/);
+  assert.match(html, /<h1 id="hero-title">\s*<span class="hero-emphasis">从真实问题出发，<\/span><br>\s*把模型能力转化为可验证的<span class="hero-mark">产品结果。<\/span>\s*<\/h1>/);
   const heroTitle = html.match(/<h1 id="hero-title">([\s\S]*?)<\/h1>/)?.[1] ?? '';
   assert.doesNotMatch(heroTitle, /Hi,我是孜孜|我定义场景和问题/);
-  assert.match(html, /嗨，我是居丽德孜。热衷探索AI动态参与开发者活动/);
+  assert.match(html, /嗨，我是居丽德孜。我关注的不只是“AI 能做什么”，更在意它能否进入真实场景、推动用户完成下一步，并通过评测与业务结果验证价值。/);
   assert.doesNotMatch(html, /class="hero-position"|AI Native 产品经理｜3 段 Agent \/ 大模型应用实习｜2 年海外增长经验｜黑客松第一｜ENFJ/);
   const proofBand = html.match(/<section class="proof-band"[\s\S]*?<\/section>/)?.[0] ?? '';
   for (const phrase of ['AI Native', '产品经理', '3 段', 'Agent / 大模型应用实习', '2 年', '海外增长经验', '黑客松第一']) {
@@ -76,8 +76,26 @@ test('作品严格按问小鲸、搜救犬、Mochi 排列', () => {
   assert.doesNotMatch(html, /全景感知搜救机械犬“小安”/);
   assert.doesNotMatch(html, /三个项目，三种把 AI 放进真实场景的方法。/);
   const rescue = html.match(/<article class="project-card project-rescue"[\s\S]*?<article class="project-card project-mochi"/)?.[0] ?? '';
-  assert.match(rescue, /<strong>72h<\/strong>[\s\S]*?<strong>第 1 名<\/strong>[\s\S]*?获新华社客户端及[\s\S]*?张越视频号[\s\S]*?采访报道/);
+  assert.match(rescue, /<strong>端到端<\/strong> 演示闭环[\s\S]*?<strong>第 1 名<\/strong>[\s\S]*?获新华社客户端及[\s\S]*?张越视频号[\s\S]*?采访报道/);
   assert.match(rescue, /https:\/\/weixin\.qq\.com\/sph\/AYOYi4zrzW/);
+});
+
+test('项目文案呈现问题判断、方案选择和验证闭环，且不含未获履历支持的表述', () => {
+  const wenxiaojing = html.match(/<article[^>]*data-project="wenxiaojing"[\s\S]*?<article class="project-card project-rescue"/)?.[0] ?? '';
+  assert.match(wenxiaojing, /课程完课率低/);
+  assert.match(wenxiaojing, /运营长期重复低质量答疑、学习者缺乏及时有效卡点引导/);
+  for (const step of ['分层教学策略', '结构化输出约束', '多轮教学闭环', 'P0\/P1 评测回归']) {
+    assert.match(wenxiaojing, new RegExp(step));
+  }
+
+  const rescue = html.match(/<article class="project-card project-rescue"[\s\S]*?<article class="project-card project-mochi"/)?.[0] ?? '';
+  assert.match(rescue, /机器狗 \+ 360°全景相机 \+ 多模态 AI/);
+  for (const step of ['YOLOv4 人员检测', 'Cohere 语音转写', '3D 全景转 2D', '决策辅助']) {
+    assert.match(rescue, new RegExp(step));
+  }
+
+  assert.match(html, /巴基斯坦区域语音房经营分析流程产品化/);
+  assert.doesNotMatch(html, /独立负责上下文伴学模块 0→1|带领 3 人团队|72h|5 万月活语音房/);
 });
 
 test('个人制作的小工具紧接主项目，情报雷达指向公开历史简报', () => {
