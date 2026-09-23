@@ -157,10 +157,8 @@ test('能力与工作台包含工具、人类技能和 AI taste', () => {
     'Codex',
     'Figma',
     'Supabase',
-    'English',
     '主持',
     'CUBA',
-    '扭脖子',
     'Ctrl+C / Ctrl+V',
     "I think it's also important to reason from first principles, rather than by analogy.",
   ]) {
@@ -168,14 +166,12 @@ test('能力与工作台包含工具、人类技能和 AI taste', () => {
   }
   assert.doesNotMatch(html, /data-skill=|class="skill-tabs"|class="workbench-index"/);
   assert.match(html, /产品设计与 AI 应用/);
-  assert.match(html, /社会学 \/ 英语双学位/);
-  assert.match(html, /哈萨克语/);
-  assert.match(html, /特殊语言技能：可与小猫小狗无痛交流/);
+  assert.doesNotMatch(html, /LANGUAGE &amp; PEOPLE|社会学 \/ 英语双学位|哈萨克语|特殊语言技能：可与小猫小狗无痛交流/);
   assert.doesNotMatch(html, /也可以和小猫小狗无痛交友|把模型放进用户的下一步，而不是让用户适应模型。/);
   assert.match(html, /<h3>校级主持人<\/h3>/);
   assert.match(html, /<h3>CUBA 亚军<\/h3>/);
   assert.match(html, /大前锋/);
-  assert.match(html, /新疆哈萨克族出厂配置。/);
+  assert.doesNotMatch(html, /HIDDEN SKILL|扭脖子|新疆哈萨克族出厂配置。/);
   assert.doesNotMatch(js, /const skillContent/);
 });
 
