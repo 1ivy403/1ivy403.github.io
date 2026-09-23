@@ -32,10 +32,10 @@ test('首屏保留人物自述，四个色块呈现定位而不重复长句', ()
   assert.match(html, /<h1 id="hero-title">\s*<span class="hero-emphasis">从真实问题出发，<\/span><br>\s*把模型能力转化为可验证的<span class="hero-mark">产品结果。<\/span>\s*<\/h1>/);
   const heroTitle = html.match(/<h1 id="hero-title">([\s\S]*?)<\/h1>/)?.[1] ?? '';
   assert.doesNotMatch(heroTitle, /Hi,我是孜孜|我定义场景和问题/);
-  assert.match(html, /嗨，我是居丽德孜。我关注的不只是“AI 能做什么”，更在意它能否进入真实场景、推动用户完成下一步，并通过评测与业务结果验证价值。/);
-  assert.doesNotMatch(html, /class="hero-position"|AI Native 产品经理｜3 段 Agent \/ 大模型应用实习｜2 年海外增长经验｜黑客松第一｜ENFJ/);
+  assert.match(html, /嗨，我是居丽德孜。热衷探索AI动态参与开发者活动，做些真实提效赋能的项目和产品，AI for good。/);
+  assert.doesNotMatch(html, /class="hero-position"|AI Native 产品经理｜2 段 Agent \/ 大模型应用实习｜2 年海外增长经验｜黑客松第一｜ENFJ/);
   const proofBand = html.match(/<section class="proof-band"[\s\S]*?<\/section>/)?.[0] ?? '';
-  for (const phrase of ['AI Native', '产品经理', '3 段', 'Agent / 大模型应用实习', '2 年', '海外增长经验', '黑客松第一']) {
+  for (const phrase of ['AI Native', '产品经理', '2 段', 'Agent / 大模型应用实习', '2 年', '海外增长经验', '黑客松第一']) {
     assert.ok(proofBand.includes(phrase), `missing positioning: ${phrase}`);
   }
   assert.doesNotMatch(proofBand, /2\.2 万|\+10\.8%|\+30%|第 1 名/);
@@ -200,7 +200,8 @@ test('履历先呈现教育再呈现职业经历，关于我直接抵达联系�
   const work = resume.indexOf('<div class="career-list"');
   assert.ok(education > 0 && work > education);
   assert.match(resume.slice(education, work), /香港城市大学[\s\S]*?澳门科技大学[\s\S]*?中南民族大学/);
-  assert.match(resume.slice(work), /Datawhale[\s\S]*?香港智感传媒[\s\S]*?迅雷/);
+  assert.match(resume.slice(work), /Datawhale[\s\S]*?迅雷/);
+  assert.doesNotMatch(resume, /香港智感传媒|career-zhigan|推动增长产品化与服务提效/);
 
   const about = html.slice(aboutStart, html.indexOf('</main>', aboutStart));
   assert.match(about, /<h2 id="about-title">如果你已经看到这里，<br>我们大概有不少可以聊的。<\/h2>/);
